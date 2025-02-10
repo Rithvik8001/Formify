@@ -1,0 +1,33 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "shell",
+      "command": "bun",
+      "args": ["run", "compile"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "silent",
+        "panel": "shared"
+      },
+      "problemMatcher": ["$tsc"],
+      "label": "bun: compile"
+    },
+    {
+      "type": "shell",
+      "command": "bun",
+      "args": ["run", "watch"],
+      "group": "build",
+      "isBackground": true,
+      "presentation": {
+        "reveal": "silent",
+        "panel": "shared"
+      },
+      "problemMatcher": ["$tsc-watch"],
+      "label": "bun: watch"
+    }
+  ]
+}

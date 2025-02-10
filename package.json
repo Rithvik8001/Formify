@@ -1,0 +1,97 @@
+{
+  "name": "formify",
+  "displayName": "Formify - Form Generator",
+  "description": "Generate React and HTML forms with a powerful visual builder. Features include form templates, validation, TypeScript support, and Tailwind CSS styling.",
+  "version": "1.0.0",
+  "publisher": "Rithvik",
+  "author": {
+    "name": "Rithvik"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Rithvik/formify"
+  },
+  "bugs": {
+    "url": "https://github.com/Rithvik/formify/issues"
+  },
+  "homepage": "https://github.com/Rithvik/formify#readme",
+  "keywords": [
+    "form",
+    "react",
+    "html",
+    "tailwind",
+    "typescript",
+    "generator",
+    "validation",
+    "template",
+    "builder",
+    "ui"
+  ],
+  "engines": {
+    "vscode": "^1.85.0",
+    "node": "^16.0.0"
+  },
+  "categories": [
+    "Snippets",
+    "Programming Languages",
+    "Other"
+  ],
+  "icon": "media/icon.png",
+  "galleryBanner": {
+    "color": "#4F46E5",
+    "theme": "dark"
+  },
+  "main": "./dist/extension.js",
+  "browser": "./dist/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "formify-sidebar",
+          "title": "Formify",
+          "icon": "media/icon.png"
+        }
+      ]
+    },
+    "views": {
+      "formify-sidebar": [
+        {
+          "type": "webview",
+          "id": "formify.sidebarView",
+          "name": "Formify Form Generator"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "formify.toHTML",
+        "title": "Formify: Convert to HTML Form"
+      },
+      {
+        "command": "formify.toReact",
+        "title": "Formify: Convert to React Form"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "bun run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "bun run compile && bun run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "@types/node": "^16.18.0",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "eslint": "^8.56.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {},
+  "extensionKind": [
+    "workspace"
+  ]
+}
