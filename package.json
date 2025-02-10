@@ -1,21 +1,21 @@
 {
   "name": "formify",
   "displayName": "Formify - Form Generator",
-  "description": "Generate React and HTML forms with a powerful visual builder. Features include form templates, validation, TypeScript support, and Tailwind CSS styling.",
+  "description": "Generate professional React and HTML forms with a powerful visual builder. Features include form templates, validation, TypeScript support, and Tailwind CSS styling.",
   "version": "1.0.0",
-  "publisher": "Rithvik",
+  "publisher": "RithvikPallamreddy",
   "author": {
-    "name": "Rithvik"
+    "name": "Rithvik Pallamreddy"
   },
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Rithvik/formify"
+    "url": "https://github.com/Rithvik8001/Formify"
   },
   "bugs": {
-    "url": "https://github.com/Rithvik/formify/issues"
+    "url": "https://github.com/Rithvik8001/Formify/issues"
   },
-  "homepage": "https://github.com/Rithvik/formify#readme",
+  "homepage": "https://github.com/Rithvik8001/Formify#readme",
   "keywords": [
     "form",
     "react",
