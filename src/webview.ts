@@ -73,58 +73,65 @@ export function getWebviewContent(webview: vscode.Webview): string {
         <title>Formify</title>
         <style>
             body {
-                padding: 16px;
+                margin: 0;
+                padding: 0;
                 font-family: var(--vscode-font-family);
                 color: var(--vscode-foreground);
                 background: var(--vscode-editor-background);
-                line-height: 1.5;
+                line-height: 1.6;
+                min-height: 100vh;
             }
             * {
                 box-sizing: border-box;
             }
             .container {
-                max-width: 100%;
+                max-width: 900px;
                 margin: 0 auto;
+                padding: 2rem;
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
             }
             .header {
-                margin-bottom: 24px;
                 text-align: center;
-                padding: 16px;
-                background: var(--vscode-editor-background);
-                border-bottom: 1px solid var(--vscode-input-border);
+                margin-bottom: 3rem;
+                padding: 1rem 0;
             }
             .header h1 {
-                font-size: 1.4rem;
-                margin: 0 0 8px 0;
+                font-size: 2rem;
+                font-weight: 600;
+                margin: 0 0 0.5rem;
                 color: var(--vscode-foreground);
+                letter-spacing: -0.025em;
             }
             .header p {
-                font-size: 0.9rem;
+                font-size: 0.95rem;
                 margin: 0;
-                opacity: 0.8;
+                opacity: 0.7;
             }
             .templates-grid {
                 display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 12px;
-                margin-bottom: 24px;
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 1.5rem;
+                margin-bottom: 3rem;
             }
             .template-card {
                 position: relative;
-                padding: 16px;
+                padding: 1.5rem;
                 background: var(--vscode-input-background);
                 border: 1px solid var(--vscode-input-border);
-                border-radius: 8px;
+                border-radius: 1rem;
                 cursor: pointer;
-                transition: all 0.2s;
+                transition: all 0.2s ease;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                gap: 8px;
+                gap: 1rem;
             }
             .template-card:hover {
                 border-color: var(--vscode-focusBorder);
-                transform: translateY(-1px);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             }
             .template-card.active {
                 background: var(--vscode-button-background);
@@ -136,43 +143,45 @@ export function getWebviewContent(webview: vscode.Webview): string {
                 opacity: 0.9;
             }
             .template-icon {
-                font-size: 28px;
-                margin-bottom: 4px;
+                font-size: 2rem;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                width: 48px;
-                height: 48px;
+                width: 4rem;
+                height: 4rem;
                 background: var(--vscode-editor-background);
-                border-radius: 12px;
+                border-radius: 1rem;
+                transition: all 0.2s ease;
             }
             .active .template-icon {
-                background: rgba(255, 255, 255, 0.2);
+                background: rgba(255, 255, 255, 0.15);
             }
             .template-name {
-                font-weight: 500;
-                font-size: 0.95rem;
+                font-weight: 600;
+                font-size: 1.1rem;
             }
             .template-description {
-                font-size: 0.8rem;
-                opacity: 0.7;
+                font-size: 0.9rem;
+                opacity: 0.8;
                 text-align: center;
             }
             .divider {
-                margin: 24px 0;
+                margin: 2.5rem 0;
                 border: none;
                 border-top: 1px solid var(--vscode-input-border);
+                opacity: 0.5;
             }
             .toolbar {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                margin-bottom: 16px;
-                gap: 12px;
+                margin-bottom: 2rem;
+                gap: 1rem;
+                flex-wrap: wrap;
             }
             .field-actions {
                 display: flex;
-                gap: 8px;
+                gap: 0.75rem;
                 flex: 1;
             }
             .field-actions button {
@@ -182,18 +191,18 @@ export function getWebviewContent(webview: vscode.Webview): string {
                 min-width: 140px;
             }
             .btn {
-                padding: 8px 16px;
+                padding: 0.75rem 1.25rem;
                 border: none;
-                border-radius: 6px;
+                border-radius: 0.75rem;
                 cursor: pointer;
                 font-size: 0.9rem;
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
-                gap: 6px;
-                transition: all 0.2s;
-                height: 36px;
+                gap: 0.5rem;
+                transition: all 0.2s ease;
                 font-weight: 500;
+                height: 2.75rem;
             }
             .btn:hover {
                 opacity: 0.9;
@@ -217,64 +226,76 @@ export function getWebviewContent(webview: vscode.Webview): string {
             .field-row {
                 display: grid;
                 grid-template-columns: 2fr 1fr 1fr auto;
-                gap: 12px;
-                margin-bottom: 12px;
-                padding: 12px;
+                gap: 1rem;
+                margin-bottom: 1rem;
+                padding: 1.25rem;
                 background: var(--vscode-input-background);
                 border: 1px solid var(--vscode-input-border);
-                border-radius: 8px;
+                border-radius: 0.75rem;
                 align-items: center;
+                transition: all 0.2s ease;
+            }
+            .field-row:hover {
+                border-color: var(--vscode-focusBorder);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
             }
             input, select {
                 width: 100%;
-                height: 36px;
-                padding: 8px 12px;
+                height: 2.75rem;
+                padding: 0.5rem 1rem;
                 background: var(--vscode-input-background);
                 color: var(--vscode-input-foreground);
                 border: 1px solid var(--vscode-input-border);
-                border-radius: 6px;
+                border-radius: 0.5rem;
                 font-size: 0.9rem;
+                transition: all 0.2s ease;
             }
             input:focus, select:focus {
                 outline: none;
                 border-color: var(--vscode-focusBorder);
+                box-shadow: 0 0 0 2px rgba(var(--vscode-focusBorder), 0.1);
             }
             .preview-panel {
-                margin-top: 24px;
-                padding: 16px;
+                margin-top: 2.5rem;
+                padding: 1.5rem;
                 background: var(--vscode-input-background);
-                border-radius: 8px;
+                border-radius: 0.75rem;
                 border: 1px solid var(--vscode-input-border);
             }
             .preview-panel pre {
                 margin: 0;
                 white-space: pre-wrap;
-                font-size: 12px;
-                padding: 12px;
+                font-size: 0.875rem;
+                padding: 1.25rem;
                 background: var(--vscode-editor-background);
-                border-radius: 6px;
+                border-radius: 0.5rem;
+                overflow-x: auto;
             }
             .empty-state {
                 text-align: center;
-                padding: 32px 24px;
+                padding: 4rem 2rem;
                 background: var(--vscode-input-background);
-                border-radius: 8px;
-                margin-bottom: 16px;
+                border-radius: 0.75rem;
+                margin-bottom: 2rem;
                 border: 1px solid var(--vscode-input-border);
             }
             .empty-state p {
-                margin: 0 0 16px 0;
-                opacity: 0.8;
+                margin: 0 0 1.5rem;
+                opacity: 0.7;
+                font-size: 0.95rem;
             }
             .output-section {
-                margin-top: 24px;
-                padding-top: 24px;
+                margin-top: 3rem;
+                padding-top: 2.5rem;
                 border-top: 1px solid var(--vscode-input-border);
             }
             .generate-btn {
                 width: 100%;
-                height: 44px;
+                height: 3rem;
                 font-size: 1rem;
+                font-weight: 600;
+                border-radius: 0.75rem;
+                letter-spacing: 0.025em;
             }
         </style>
     </head>

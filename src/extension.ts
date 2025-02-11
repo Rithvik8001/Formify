@@ -89,8 +89,8 @@ function generateReactForm(fields: FormField[]): string {
       const requiredAttr = field.required ? " required" : "";
 
       if (field.type === "textarea") {
-        return `        <div className="mb-6">
-          <label htmlFor="${name}" className="block text-sm font-medium text-gray-700 mb-2">
+        return `        <div className="mb-4">
+          <label htmlFor="${name}" className="block text-sm font-medium text-gray-600 mb-1">
             ${label}${field.required ? " *" : ""}
           </label>
           <textarea
@@ -98,37 +98,41 @@ function generateReactForm(fields: FormField[]): string {
             name="${name}"
             value={formData.${name}}
             onChange={handleChange}${requiredAttr}
-            className={\`w-full px-3 py-2 border \${errors.${name} ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500\`}
+            className={\`w-full px-3 py-2 border \${
+              errors.${name} ? 'border-red-400' : 'border-gray-200'
+            } rounded-lg focus:outline-none focus:border-blue-400 transition-colors\`}
             rows={4}
           />
           {errors.${name} && (
-            <p className="mt-1 text-sm text-red-600">{errors.${name}}</p>
+            <p className="mt-1 text-sm text-red-500">{errors.${name}}</p>
           )}
         </div>`;
       }
 
       if (field.type === "checkbox") {
-        return `        <div className="mb-6">
+        return `        <div className="mb-4">
           <label className="inline-flex items-center">
             <input
               type="checkbox"
               name="${name}"
               checked={formData.${name} === "true"}
               onChange={handleChange}${requiredAttr}
-              className={\`rounded \${errors.${name} ? 'border-red-500' : 'border-gray-300'} text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50\`}
+              className={\`rounded \${
+                errors.${name} ? 'border-red-400' : 'border-gray-200'
+              } text-blue-500 focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 transition-colors\`}
             />
-            <span className="ml-2 text-sm text-gray-700">${label}${
+            <span className="ml-2 text-sm text-gray-600">${label}${
           field.required ? " *" : ""
         }</span>
           </label>
           {errors.${name} && (
-            <p className="mt-1 text-sm text-red-600">{errors.${name}}</p>
+            <p className="mt-1 text-sm text-red-500">{errors.${name}}</p>
           )}
         </div>`;
       }
 
-      return `        <div className="mb-6">
-          <label htmlFor="${name}" className="block text-sm font-medium text-gray-700 mb-2">
+      return `        <div className="mb-4">
+          <label htmlFor="${name}" className="block text-sm font-medium text-gray-600 mb-1">
             ${label}${field.required ? " *" : ""}
           </label>
           <input
@@ -137,10 +141,12 @@ function generateReactForm(fields: FormField[]): string {
             name="${name}"
             value={formData.${name}}
             onChange={handleChange}${requiredAttr}
-            className={\`w-full px-3 py-2 border \${errors.${name} ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500\`}
+            className={\`w-full px-3 py-2 border \${
+              errors.${name} ? 'border-red-400' : 'border-gray-200'
+            } rounded-lg focus:outline-none focus:border-blue-400 transition-colors\`}
           />
           {errors.${name} && (
-            <p className="mt-1 text-sm text-red-600">{errors.${name}}</p>
+            <p className="mt-1 text-sm text-red-500">{errors.${name}}</p>
           )}
         </div>`;
     })
@@ -156,17 +162,14 @@ interface FormErrors {
   ${fields.map((field) => `${field.label.toLowerCase()}: string;`).join("\n  ")}
 }
 
-function MyForm() {
+export default function MyForm() {
   const [formData, setFormData] = useState<FormData>({ ${stateFields} });
   const [errors, setErrors] = useState<FormErrors>({ ${errorFields} });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const validateForm = (): boolean => {
     const errors: FormErrors = { ${errorFields} };
-
-    // Validation rules
     ${validationRules}
-
     setErrors(errors);
     return Object.values(errors).every(error => !error);
   };
@@ -174,9 +177,7 @@ function MyForm() {
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
     const val = type === 'checkbox' ? (e.target as HTMLInputElement).checked.toString() : value;
-
     setFormData(prev => ({ ...prev, [name]: val }));
-    // Clear error when user starts typing
     if (errors[name as keyof FormErrors]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
@@ -184,65 +185,53 @@ function MyForm() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    if (!validateForm()) {
-      return;
-    }
+    if (!validateForm()) return;
 
     setIsSubmitting(true);
     try {
-      // Simulated API call
       await new Promise(resolve => setTimeout(resolve, 1000));
       console.log('Form submitted:', formData);
-
-      // Reset form on success
       setFormData({ ${stateFields} });
       setErrors({ ${errorFields} });
       alert('Form submitted successfully!');
     } catch (error) {
-      console.error('Submission error:', error);
-      alert('An error occurred while submitting the form.');
+      console.error('Error submitting form:', error);
+      alert('Error submitting form. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
-      <form onSubmit={handleSubmit} className="space-y-6">
-${formFields}
-        <div className="flex justify-end">
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className={\`px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors \${
-              isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
-            }\`}
-          >
-            {isSubmitting ? 'Submitting...' : 'Submit'}
-          </button>
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-sm">
+        <div className="text-center">
+          <h2 className="text-3xl font-semibold text-gray-800">
+            ${fields[0]?.label ? fields[0].label.split(/(?=[A-Z])/).join(" ") : "Form"}
+          </h2>
+          <p className="mt-2 text-sm text-gray-500">
+            Please fill in the required information
+          </p>
         </div>
-      </form>
+        
+        <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+${formFields}
+          <div className="pt-4">
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className={\`w-full py-2.5 px-4 border border-transparent rounded-lg text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400 transition-colors \${
+                isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
+              }\`}
+            >
+              {isSubmitting ? 'Submitting...' : 'Submit'}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
-}
-
-export default MyForm;
-
-{/* Add this to your index.css or App.css */}
-{/*
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-*/}
-
-{/* Add these dependencies to your package.json */}
-{/*
-  "dependencies": {
-    "tailwindcss": "^3.4.1"
-  }
-*/}
-`;
+}`;
 }
 
 class FormifyViewProvider implements vscode.WebviewViewProvider {

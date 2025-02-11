@@ -2,7 +2,7 @@
   "name": "formify",
   "displayName": "Formify - Form Generator",
   "description": "Generate professional React and HTML forms with a powerful visual builder. Features include form templates, validation, TypeScript support, and Tailwind CSS styling.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publisher": "RithvikPallamreddy",
   "author": {
     "name": "Rithvik Pallamreddy"
